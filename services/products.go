@@ -38,3 +38,27 @@ func GetProducts() ([]Product, error) {
 
 	return products, nil
 }
+
+func GetProductById(ID uint64) (Product, error) {
+	var product Product
+
+	row, err := models.GetProductById(ID)
+	if err != nil {
+		return product, err
+	}
+	defer row.Close()
+
+	if row.Next() {
+		err := row.Scan(
+			&product.ID,
+			&product.Name,
+			&product.Quantity,
+		)
+
+		if err != nil {
+			return product, err
+		}
+	}
+
+	return product, nil
+}

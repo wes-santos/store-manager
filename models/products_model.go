@@ -28,3 +28,21 @@ func GetProducts() (*sql.Rows, error) {
 
 	return rows, nil
 }
+
+func GetProductById(ID uint64) (*sql.Rows, error) {
+	db, err := db.Connection()
+
+	if err != nil {
+		return nil, err
+	}
+
+	defer db.Close()
+
+	rows, err := db.Query("SELECT * FROM products WHERE id = ?", ID)
+
+	if err != nil {
+		return nil, err
+	}
+
+	return rows, nil
+}
